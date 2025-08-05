@@ -1,4 +1,3 @@
-
 #include <IRremote.hpp>
 #include <AFMotor.h>
 
@@ -7,10 +6,10 @@ Servo myservo;
 
 #define IR_RECEIVE_PIN 9 // pin SERVO_2
 #define pin_ngencrit 10
-AF_DCMotor motor(1);
-AF_DCMotor motor1(2);
-AF_DCMotor motor2(3);
-AF_DCMotor motor3(4);
+AF_DCMotor motor1(1);
+AF_DCMotor motor2(2);
+AF_DCMotor motor3(3);
+AF_DCMotor motor4(4);
 
 int pwm = 150;
 
@@ -22,14 +21,11 @@ const int kode_berhenti = 3810328320;
 
 const int kode_ngencrit = 3910598400;
 const int kode_ngencrit_tutup = 4061003520;
-//const int kode_servo_buka_pelan = ;
-//const int kode_servo_tutup_pelan = ;
 
 const int servo_tutup = 35; // servo 0 derajat
 
 void setup() {
-  IrReceiver.begin(IR_RECEIVE_PIN);
-  myservo.attach(10); // pin SERVO_1 motorshield
+  IrReceiver.begin(IR_RECEIVE_PIN); // pin SERVO_1 motorshield
   Serial.begin(9600);
 }
 void loop() {
@@ -75,47 +71,47 @@ void loop() {
 }
 }
 void maju() {
-  motor.setSpeed(pwm);
   motor1.setSpeed(pwm);
   motor2.setSpeed(pwm);
   motor3.setSpeed(pwm);
+  motor4.setSpeed(pwm);
   motor1.run(FORWARD);
-  motor.run(FORWARD);
   motor3.run(FORWARD);
-  motor2.run(FORWARD);
+  motor3.run(FORWARD);
+  motor4.run(FORWARD);
 }
 void mundur() {
 
-  motor.setSpeed(pwm);
   motor1.setSpeed(pwm);
   motor2.setSpeed(pwm);
   motor3.setSpeed(pwm);
+  motor4.setSpeed(pwm);
   motor1.run(BACKWARD);
-  motor.run(BACKWARD);
-  motor3.run(BACKWARD);
   motor2.run(BACKWARD);
+  motor3.run(BACKWARD);
+  motor4.run(BACKWARD);
 }
 void belok_kanan() {
 
-  motor.setSpeed(pwm);
   motor1.setSpeed(pwm);
   motor2.setSpeed(pwm);
   motor3.setSpeed(pwm);
+  motor4.setSpeed(pwm);
   motor1.run(BACKWARD);
-  motor.run(FORWARD);
-  motor3.run(BACKWARD);
   motor2.run(FORWARD);
+  motor3.run(BACKWARD);
+  motor4.run(FORWARD);
 }
 void belok_kiri() {
 
-  motor.setSpeed(pwm);
   motor1.setSpeed(pwm);
   motor2.setSpeed(pwm);
   motor3.setSpeed(pwm);
-  motor1.run(FORWARD);
-  motor.run(BACKWARD);
-  motor3.run(FORWARD);
-  motor2.run(BACKWARD);
+  motor4.setSpeed(pwm);
+  motor2.run(FORWARD);
+  motor1.run(BACKWARD);
+  motor4.run(FORWARD);
+  motor3.run(BACKWARD);
 }
 void putar_kiri() {
 
@@ -123,21 +119,21 @@ void putar_kiri() {
   motor1.setSpeed(pwm);
   motor2.setSpeed(pwm);
   motor3.setSpeed(pwm);
+  motor2.run(FORWARD);
   motor1.run(FORWARD);
-  motor.run(FORWARD);
+  motor4.run(BACKWARD);
   motor3.run(BACKWARD);
-  motor2.run(BACKWARD);
 }
 void putar_kanan() {
 
-  motor.setSpeed(pwm);
   motor1.setSpeed(pwm);
   motor2.setSpeed(pwm);
   motor3.setSpeed(pwm);
+  motor4.setSpeed(pwm);
+  motor2.run(BACKWARD);
   motor1.run(BACKWARD);
-  motor.run(BACKWARD);
+  motor4.run(FORWARD);
   motor3.run(FORWARD);
-  motor2.run(FORWARD);
 }
 void moveRightForward() {
 
@@ -145,21 +141,21 @@ void moveRightForward() {
   motor1.setSpeed(0);
   motor2.setSpeed(pwm);
   motor3.setSpeed(0);
-  motor3.run(RELEASE);
-  motor1.run(RELEASE);
-  motor.run(FORWARD);
-  motor2.run(FORWARD);
+  motor4.run(RELEASE);
+  motor2.run(RELEASE);
+  motor1.run(FORWARD);
+  motor3.run(FORWARD);
 }
 void moveRightBackward() {
 
   motor1.setSpeed(pwm);
-  motor.setSpeed(0);
-  motor3.setSpeed(pwm);
   motor2.setSpeed(0);
-  motor.run(RELEASE);
-  motor2.run(RELEASE);
-  motor1.run(BACKWARD);
-  motor3.run(BACKWARD);
+  motor3.setSpeed(pwm);
+  motor4.setSpeed(0);
+  motor1.run(RELEASE);
+  motor3.run(RELEASE);
+  motor2.run(BACKWARD);
+  motor4.run(BACKWARD);
 
 }
 void moveLeftForward() {
@@ -168,30 +164,31 @@ void moveLeftForward() {
   motor1.setSpeed(pwm);
   motor2.setSpeed(0);
   motor3.setSpeed(pwm);
-  motor2.run(RELEASE);
-  motor.run(RELEASE);
-  motor1.run(FORWARD);
-  motor3.run(FORWARD);
+  motor3.run(RELEASE);
+  motor1.run(RELEASE);
+  motor2.run(FORWARD);
+  motor4.run(FORWARD);
 }
 void moveLeftBackward() {
 
-  motor.setSpeed(pwm);
-  motor1.setSpeed(0);
-  motor2.setSpeed(pwm);
-  motor3.setSpeed(0);
+  motor1.setSpeed(pwm);
+  motor2.setSpeed(0);
+  motor3.setSpeed(pwm);
+  motor4.setSpeed(0);
   motor3.run(RELEASE);
-  motor1.run(RELEASE);
-  motor.run(BACKWARD);
-  motor2.run(BACKWARD);
+  motor2.run(RELEASE);
+  motor1.run(BACKWARD);
+  motor4.run(BACKWARD);
 }
 void berhenti() {
-  motor.run(RELEASE);
   motor1.run(RELEASE);
   motor2.run(RELEASE);
   motor3.run(RELEASE);
+  motor4.run(RELEASE);
   motor1.setSpeed(0);
   motor2.setSpeed(0);
   motor3.setSpeed(0);
-  motor.setSpeed(0);
+  motor4.setSpeed(0);
 }
+
 
