@@ -6,13 +6,13 @@
 Servo myservo;
 
 #define IR_RECEIVE_PIN 9 // pin SERVO_2
-
+#define pin_ngencrit 10
 AF_DCMotor motor(1);
 AF_DCMotor motor1(2);
 AF_DCMotor motor2(3);
 AF_DCMotor motor3(4);
 
-int pwm = 100;
+int pwm = 150;
 
 const int kode_maju = 3877175040;
 const int kode_mundur = 2907897600;
@@ -20,8 +20,8 @@ const int kode_belok_kanan = 2774204160;
 const int kode_belok_kiri = 4144561920;
 const int kode_berhenti = 3810328320;
 
-const int kode_servo_buka = 3910598400;
-const int kode_servo_tutup = 4061003520;
+const int kode_ngencrit = 3910598400;
+const int kode_ngencrit_tutup = 4061003520;
 //const int kode_servo_buka_pelan = ;
 //const int kode_servo_tutup_pelan = ;
 
@@ -62,20 +62,13 @@ void loop() {
       IrReceiver.resume();
       break;
     case 3910598400:
-      int pos1 = 35; 
-      for(pos1 = 35; pos1 >= 95; pos1=+1){
-        myservo.write(pos1);
-        }
-      delay(30);
+      digitalWrite(pin_ngencrit, HIGH);
+      delay(5000);
       IrReceiver.resume();
       break;
     
     case 4061003520:
-      int pos2 = 95;
-      for(pos2 = 95; pos2 <= 95; pos2=-1){
-        myservo.write(pos2);
-        }
-      delay(30);
+      digitalWrite(pin_ngencrit, LOW);
       IrReceiver.resume();
       break;
 }
