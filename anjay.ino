@@ -2,9 +2,10 @@
 #include <IRremote.hpp>
 #include <AFMotor.h>
 
+
 Servo myservo;
 
-#define IR_RECEIVE_PIN 6
+#define IR_RECEIVE_PIN 9 // pin SERVO_2
 
 AF_DCMotor motor(1);
 AF_DCMotor motor1(2);
@@ -13,50 +14,73 @@ AF_DCMotor motor3(4);
 
 int pwm = 100;
 
-const int kode_maju = ;
-const int kode_mundur = ;
-const int kode_belok_kanan = ;
-const int kode_belok_kiri = ;
-const int kode_berhenti = ;
+const int kode_maju = 3877175040;
+const int kode_mundur = 2907897600;
+const int kode_belok_kanan = 2774204160;
+const int kode_belok_kiri = 4144561920;
+const int kode_berhenti = 3810328320;
 
-const int kode_servo_buka = ;
-const int kode_servo_tutup = ;
-const int kode_servo_buka_pelan = ;
-const int kode_servo_tutup_pelan = ;
+const int kode_servo_buka = 3910598400;
+const int kode_servo_tutup = 4061003520;
+//const int kode_servo_buka_pelan = ;
+//const int kode_servo_tutup_pelan = ;
+
+const int servo_tutup = 35; // servo 0 derajat
 
 void setup() {
   IrReceiver.begin(IR_RECEIVE_PIN);
-  myservo.attach(9);
+  myservo.attach(10); // pin SERVO_1 motorshield
   Serial.begin(9600);
 }
 void loop() {
-  const int hasil_ir = IrReceiver.decodedIRData.decodedRawData;
-  Serial.println(hasil_ir);
-  switch(IrReceiver.decodeIRData.decodedRawData) {
-    case kode_maju:
+  if(IrReceiver.decode()){
+    IrReceiver.resume();
+  switch(IrReceiver.decodedIRData.decodedRawData) {
+    case 3877175040:
       maju();
+      delay(5);
       IrReceiver.resume();
       break;
-    case kode_mundur:
+    case 2907897600:
       mundur();
+      delay(5);
       IrReceiver.resume();
       break;
-    case kode_belok_kanan:
+    case 2774204160:
       belok_kanan();
+      delay(5);
       IrReceiver.resume();
       break;
-    case kode_belok_kiri:
+    case 4144561920:
       belok_kiri();
       IrReceiver.resume();
+      delay(5);
       break;
-    case kode_berhenti:
+    case 3810328320:
       berhenti();
+      delay(5);
       IrReceiver.resume();
       break;
-    case 
-    }
+    case 3910598400:
+      int pos1 = 35; 
+      for(pos1 = 35; pos1 >= 95; pos1=+1){
+        myservo.write(pos1);
+        }
+      delay(30);
+      IrReceiver.resume();
+      break;
+    
+    case 4061003520:
+      int pos2 = 95;
+      for(pos2 = 95; pos2 <= 95; pos2=-1){
+        myservo.write(pos2);
+        }
+      delay(30);
+      IrReceiver.resume();
+      break;
 }
-
+}
+}
 void maju() {
   motor.setSpeed(pwm);
   motor1.setSpeed(pwm);
