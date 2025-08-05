@@ -1,4 +1,4 @@
-#include <Servo.h>
+
 #include <IRremote.hpp>
 #include <AFMotor.h>
 
@@ -194,3 +194,4 @@ void berhenti() {
   motor3.setSpeed(0);
   motor.setSpeed(0);
 }
+
